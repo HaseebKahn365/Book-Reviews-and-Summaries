@@ -1,0 +1,8 @@
+test_newf (__main__.MyUtilT.test_newf) ... [33mexpected failure[0m
+test_win_reg (__main__.MyUtilT.test_win_reg) ... [33mskipped[0m 'Only runs on windows'
+test_del (__main__.TestDatabase.test_del) ... [32mok[0m
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+[32mOK[0m ([33mskipped=1[0m, [33mexpected failures=1[0m)
