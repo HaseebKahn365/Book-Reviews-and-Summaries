@@ -1,0 +1,7 @@
+setup.py
+patchy_lib/__init__.py
+patchy_lib/import_patch.py
+patchy_lib.egg-info/PKG-INFO
+patchy_lib.egg-info/SOURCES.txt
+patchy_lib.egg-info/dependency_links.txt
+patchy_lib.egg-info/top_level.txt

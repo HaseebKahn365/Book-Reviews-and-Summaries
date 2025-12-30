@@ -1,0 +1,16 @@
+{
+  "name": "DataProcessor",
+  "version": "1.0.0",
+  "settings": {
+    "max_workers": 4,
+    "timeout": 30,
+    "retry_attempts": 3,
+    "log_level": "INFO"
+  },
+  "data_sources": [
+    "database",
+    "api",
+    "file_system"
+  ],
+  "output_format": "json"
+}
