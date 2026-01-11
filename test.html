@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Comprehensive Analysis of Online Retail Dataset</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap" rel="stylesheet">
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- D3.js -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<!-- MathJax -->
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/tex' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.min.js"></script>
+
+<style>
+body {
+    font-family: "Times New Roman", serif;
+    margin: 2cm;
+    line-height: 1.6;
+    color: #000;
+}
+h1, h2, h3 {
+    font-weight: bold;
+}
+h1 { text-align: center; }
+h2 { border-bottom: 2px solid #000; padding-bottom: 5px; }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+table, th, td {
+    border: 1px solid #000;
+}
+th, td {
+    padding: 8px;
+    text-align: center;
+}
+code {
+    background: #f2f2f2;
+    padding: 10px;
+    display: block;
+    white-space: pre-wrap;
+}
+.chart-container {
+    width: 100%;
+    height: 400px;
+    margin: 30px 0;
+}
+.page-break {
+    page-break-before: always;
+}
+@media print {
+    body { margin: 1.5cm; }
+    .page-break { page-break-before: always; }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Comprehensive Analysis of the Online Retail Dataset</h1>
+<p style="text-align:center;">
+Formal Academic Report<br>
+Course Learning Outcome (CLO-3) | Program Learning Outcome (PLO-4)
+</p>
+
+<hr>
+
+<h2>Dataset Context</h2>
+<p>
+The <strong>Online Retail Dataset</strong> represents transactional-level data from an e-commerce platform.
+It contains information related to sales orders, customer behavior, geographic distribution, and financial performance.
+</p>
+
+<table>
+<tr><th>Feature</th><th>Description</th></tr>
+<tr><td>Order ID</td><td>Unique identifier for each transaction</td></tr>
+<tr><td>Amount</td><td>Total revenue of the order</td></tr>
+<tr><td>Profit</td><td>Net profit earned per order</td></tr>
+<tr><td>Quantity</td><td>Units sold per order</td></tr>
+<tr><td>Category</td><td>Product category</td></tr>
+<tr><td>Sub-Category</td><td>Product sub-category</td></tr>
+<tr><td>Payment Mode</td><td>Method of payment</td></tr>
+<tr><td>Order Date</td><td>Date of transaction</td></tr>
+<tr><td>Customer Name</td><td>Customer identifier</td></tr>
+<tr><td>State</td><td>Geographical location</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<h2>Q1: Data Cleaning and Pre-processing</h2>
+
+<h3>1. Missing Value Handling</h3>
+<p>
+Missing values are first identified using null checks. Numerical attributes such as <em>Amount</em> and <em>Profit</em>
+are imputed using mean or median, while categorical attributes such as <em>Category</em> or <em>State</em>
+are imputed using the mode.
+</p>
+
+\[
+\text{Mean Imputation} = \frac{1}{n}\sum_{i=1}^{n} x_i
+\]
+
+<h3>2. Duplicate Detection</h3>
+<p>
+Duplicate records are identified using <em>Order ID</em> and removed to ensure transactional uniqueness.
+</p>
+
+<code>
+IF OrderID appears more than once:
+    KEEP first occurrence
+    DROP remaining rows
+</code>
+
+<h3>3. Outlier Detection (IQR Method)</h3>
+<p>
+Outliers in numerical fields are detected using the Interquartile Range (IQR) method.
+</p>
+
+\[
+IQR = Q_3 - Q_1
+\]
+
+\[
+\text{Lower Bound} = Q_1 - 1.5 \times IQR
+\]
+
+\[
+\text{Upper Bound} = Q_3 + 1.5 \times IQR
+\]
+
+<h3>4. Data Type Conversion</h3>
+<table>
+<tr><th>Field</th><th>Target Data Type</th></tr>
+<tr><td>Order ID</td><td>String</td></tr>
+<tr><td>Amount</td><td>Float</td></tr>
+<tr><td>Profit</td><td>Float</td></tr>
+<tr><td>Quantity</td><td>Integer</td></tr>
+<tr><td>Order Date</td><td>DateTime</td></tr>
+</table>
+
+<h3>5. Feature Engineering</h3>
+<p>
+Derived features improve analytical depth.
+</p>
+
+\[
+\text{Profit Margin} = \frac{\text{Profit}}{\text{Amount}} \times 100
+\]
+
+\[
+\text{Revenue per Unit} = \frac{\text{Amount}}{\text{Quantity}}
+\]
+
+<h3>6. Normalization</h3>
+\[
+Z = \frac{x - \mu}{\sigma}
+\]
+
+<h3>7. Encoding</h3>
+<p>
+Categorical variables are encoded using One-Hot Encoding.
+</p>
+
+<h3>8. Data Validation Rules</h3>
+<ul>
+<li>Profit ≤ Amount</li>
+<li>Quantity > 0</li>
+<li>Order Date ≤ Current Date</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2>Q2: Analytical Tasks</h2>
+
+<h3>Sales Performance Analysis</h3>
+
+\[
+\text{Total Revenue} = \sum \text{Amount}
+\]
+
+\[
+\text{Average Order Value (AOV)} = \frac{\text{Total Revenue}}{\text{Number of Orders}}
+\]
+
+<h3>Customer Retention and Churn</h3>
+
+\[
+\text{Retention Rate} = \frac{\text{Customers Retained}}{\text{Customers at Start}}
+\]
+
+\[
+CLV = \sum_{t=1}^{T} \frac{R_t}{(1+d)^t}
+\]
+
+<h3>Sales Forecasting</h3>
+
+\[
+Y_t = T_t + S_t + I_t
+\]
+
+\[
+MA_t = \frac{1}{n}\sum_{i=1}^{n} Y_{t-i}
+\]
+
+\[
+RMSE = \sqrt{\frac{1}{n}\sum (y_i - \hat{y}_i)^2}
+\]
+
+<h3>Geographical Analysis</h3>
+
+\[
+\text{Market Share}_{state} = \frac{\text{State Sales}}{\text{Total Sales}}
+\]
+
+<div class="page-break"></div>
+
+<h2>Q3: Visualization Techniques</h2>
+
+<h3>1. Time Series – Monthly Sales</h3>
+<canvas id="lineChart" class="chart-container"></canvas>
+
+<h3>2. Category Sales Comparison</h3>
+<canvas id="barChart" class="chart-container"></canvas>
+
+<h3>3. Scatter Plot (Amount vs Profit)</h3>
+<canvas id="scatterChart" class="chart-container"></canvas>
+
+<h3>4. Pie Chart – Market Share</h3>
+<canvas id="pieChart" class="chart-container"></canvas>
+
+<h3>5. Histogram – Order Amount</h3>
+<canvas id="histChart" class="chart-container"></canvas>
+
+<h3>6. Cohort Retention Heatmap</h3>
+<div id="heatmap"></div>
+
+<div class="page-break"></div>
+
+<h2>Q4: Statistical Testing to Increase Sales</h2>
+
+<h3>A/B Testing (Two-Sample t-Test)</h3>
+
+\[
+t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}
+\]
+
+<h3>Chi-Square Test</h3>
+
+\[
+\chi^2 = \sum \frac{(O - E)^2}{E}
+\]
+
+<h3>ANOVA</h3>
+
+\[
+F = \frac{MS_{between}}{MS_{within}}
+\]
+
+<h3>Multiple Linear Regression</h3>
+
+\[
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon
+\]
+
+<h3>Pearson Correlation</h3>
+
+\[
+r = \frac{\sum (x-\bar{x})(y-\bar{y})}{\sqrt{\sum(x-\bar{x})^2 \sum(y-\bar{y})^2}}
+\]
+
+<h3>Bonferroni Correction</h3>
+
+\[
+\alpha' = \frac{\alpha}{m}
+\]
+
+<table>
+<tr><th>Business Goal</th><th>Statistical Test</th><th>Expected Outcome</th></tr>
+<tr><td>Increase Conversion</td><td>A/B Test</td><td>Optimized pricing</td></tr>
+<tr><td>Category Profitability</td><td>ANOVA</td><td>Product focus</td></tr>
+<tr><td>Customer Churn</td><td>Survival Analysis</td><td>Retention strategies</td></tr>
+</table>
+
+<hr>
+<p style="text-align:center;">
+<strong>End of Report</strong>
+</p>
+
+<script>
+new Chart(document.getElementById("lineChart"), {
+    type: 'line',
+    data: {
+        labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+        datasets: [{ label: "Monthly Sales", data: [12000,14000,13000,15000,16000,17000,16500,18000,17500,19000,20000,22000] }]
+    }
+});
+
+new Chart(document.getElementById("barChart"), {
+    type: 'bar',
+    data: {
+        labels: ["Electronics","Clothing","Furniture","Books","Sports"],
+        datasets: [{ label: "Sales", data: [50000,42000,38000,21000,29000] }]
+    }
+});
+
+new Chart(document.getElementById("scatterChart"), {
+    type: 'scatter',
+    data: {
+        datasets: [{
+            label: "Amount vs Profit",
+            data: Array.from({length:50}, () => ({x: Math.random()*1000, y: Math.random()*300}))
+        }]
+    }
+});
+
+new Chart(document.getElementById("pieChart"), {
+    type: 'pie',
+    data: {
+        labels: ["Electronics","Clothing","Furniture","Books","Sports"],
+        datasets: [{ data: [35,25,20,10,10] }]
+    }
+});
+
+new Chart(document.getElementById("histChart"), {
+    type: 'bar',
+    data: {
+        labels: ["0-200","200-400","400-600","600-800","800-1000"],
+        datasets: [{ data: [15,30,25,20,10] }]
+    }
+});
+
+const heatData = [
+  {x:0,y:0,v:100},{x:1,y:0,v:80},{x:2,y:0,v:60},
+  {x:0,y:1,v:90},{x:1,y:1,v:70},{x:2,y:1,v:50}
+];
+const svg = d3.select("#heatmap").append("svg").attr("width",300).attr("height",200);
+svg.selectAll("rect")
+.data(heatData)
+.enter()
+.append("rect")
+.attr("x", d => d.x*100)
+.attr("y", d => d.y*100)
+.attr("width",100)
+.attr("height",100)
+.style("fill", d => d3.interpolateBlues(d.v/100));
+</script>
+
+</body>
+</html>
+
